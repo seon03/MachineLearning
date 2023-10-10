@@ -1,2 +1,2 @@
 # MachineLearning
-1. Bream And Smelt binary classification
+1. Bream & Smelt k-Nearest Neighbors algorithm (binary Classification)
