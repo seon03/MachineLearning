@@ -1,0 +1,60 @@
+## 1-2. Logistic regression with Titanic dataset
+
+#Download the dataset
+!wget wget --no-check-certificate 'https://docs.google.com/uc?export=download&id=1Z-IGKwjJ2z-tzJUFa9pWmG3BdMULbTqm' -O titanic.csv
+
+#Overview the dataset
+#*   data source: https://github.com/datasciencedojo/datasets/blob/master/titanic.csv
+#*   'Survived' indicates whether or not the passenger survived
+
+
+df2 = pd.read_csv('titanic.csv')
+df2.head()
+
+print(df2.shape)
+
+
+#Assume that 'Pclass' (e.g., first class, second class, economy class, etc), 'Sex', and 'Age' played more important roles in impacting whether the passenger survivced.
+#Use these three features then.
+#Data preprocessing done as follows
+# In Sex, string type used, convert this to 1 or 0
+df2['Sex'] = df2['Sex'].map({'female':1,'male':0})
+# In Age, there are missing values. Fill them with average values
+df2['Age'].fillna(value=df2['Age'].mean(), inplace=True)
+# For further simplicity, divide Pclass into "First class" and "Second class" to use boolean values
+df2['FirstClass'] = df2['Pclass'].apply(lambda x: 1 if x == 1 else 0)
+df2['SecondClass'] = df2['Pclass'].apply(lambda x: 1 if x == 2 else 0)
+
+df2.head()
+
+X = df2[['Sex', 'Age', 'FirstClass', 'SecondClass']]
+y = df2['Survived']
+print(X.shape)
+print(y.shape)
+
+# As LR provided by sklearn uses L2 norm as the penalty (by default), the predictor tends to depend on the inputted feature scale
+# Also, the scaler helps better prediction when the data points are spread out
+from sklearn.preprocessing import StandardScaler
+def scaler_samples(train_X,test_X):
+  scaler = StandardScaler()
+  train_X = scaler.fit_transform(train_X)
+  test_X = scaler.transform(test_X)
+
+  return train_X, test_X
+
+## Goal: Train Logistic Regressoin classifier to predict y (whether or not the passenger survived) based on given features (passengers' sex, age, whether or not firstclass, whether or not secondclass)
+#❗READ CAREFULLY ⬇
+
+#*   Use Scikit-learn library directly
+#*   TO-DO:
+ # 1. Split the dataset into training and testing sets (training:testing=75:25)
+ # 2. Use provided "StandardScaler" function to map all points to have mean=0 and std=1
+ # 3. Train LR classifier using training set
+ # 4. Test a trained LR classifier using testing set and report the testing accuracy
+ # 5. Report your discussion on which feature seems to be more important based on coefficients you got
+ # 6. Test (again) a trained LR classifier using your profile which can be crafted as follows.
+   #   - Example: ME = np.array([1.0, 20.0, 1.0, 0.0])
+   #   - Report whether or not you would survive
+
+
+
