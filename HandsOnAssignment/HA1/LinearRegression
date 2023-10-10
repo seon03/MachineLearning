@@ -47,3 +47,5 @@ line_fitter.intercept_
 plt.plot(X, y, 'o')
 plt.plot(X,line_fitter.predict(X.reshape(-1,1)))
 plt.show()
+
+# 참고 사이트: https://hleecaster.com/ml-logistic-regression-concept/
