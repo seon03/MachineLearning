@@ -26,3 +26,39 @@ plt.show()
 
 length = bream_length + smelt_length
 weight = bream_weight + smelt_weight
+
+fish_data = [[l,w] for l, w in zip(length, weight)]
+print(fish_data)
+
+# 곱셈 연산자를 사용하면 파이썬 리스트를 간단하게 반복시킬 수 있다.
+fish_target = [1]*35 + [0]* 14
+print(fish_target)
+#[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+from sklearn.neighbors import KNeighborsClassifier
+kn = KNeighborsClassifier()
+kn.fit(fish_data, fish_target)
+kn.score(fish_data,fish_target) #1.0
+
+kn.predict([[30, 600]]) #array([1])
+
+print(kn._fit_X)
+print(kn._y)
+
+
+# 모두 도미로 인식
+kn49 = KNeighborsClassifier(n_neighbors=49)
+kn49.fit(fish_data, fish_target)
+kn49.score(fish_data, fish_target) #0.7142857142857143
+print(35/49) #0.7142857142857143
+
+
+
+for n in range(5,50):
+    kn.n_neighbors = n
+    score = kn.score(fish_data, fish_target)
+    if score<1:
+        print(n,score)
+        break
+# 18 0.9795918367346939
+
