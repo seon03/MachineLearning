@@ -1,0 +1,51 @@
+## 1-1. Linear regression with Startup dataset
+
+#Download the startup dataset
+#- data source: https://www.kaggle.com/datasets/karthickveerakumar/startup-logistic-regression
+!wget --no-check-certificate 'https://docs.google.com/uc?export=download&id=1IejcELv6fntdfsoVVU0TZdAC8VI1m9qi' -O startups.csv
+
+#Overview the dataset
+import pandas as pd
+df = pd.read_csv('startups.csv')
+df.head()
+
+#Visualize the data
+import matplotlib.pyplot as plt
+fig, ax = plt.subplots(1,4, figsize=(20,5))
+ax[0].scatter(df['R&D Spend'], df['Administration'])
+ax[0].set_title('R&D Spend vs Administration')
+ax[1].scatter(df['R&D Spend'], df['Marketing Spend'])
+ax[1].set_title('R&D Spend vs Marketing Spend')
+ax[2].scatter(df['Administration'], df['Marketing Spend'])
+ax[2].set_title('Administration vs Marketing Spend')
+ax[3].scatter(df['R&D Spend'], df['Profit'])
+ax[3].set_title('R&D Spend vs Profit')
+
+
+## Goal: Use linear regression to fit the function on the data point pairs of x(R&D Spend) and y(Profit)
+
+#❗READ CAREFULLY ⬇
+
+*   Use Scikit-learn library directly (Don't use your own to do this)
+*   TO-DO:
+
+      #1. After fitting, report coefficients and bias you got
+      #2. Draw the plot of the fitted line over given data points (e.g., refer to the plot)
+
+
+from sklearn.linear_model import LinearRegression
+line_fitter = LinearRegression()
+import numpy as np
+X= np.array(df['R&D Spend'])
+y= np.array(df['Profit'])
+line_fitter.fit(X.reshape(-1,1), y)
+
+line_fitter.coef_
+
+line_fitter.intercept_
+
+plt.plot(X, y, 'o')
+plt.plot(X,line_fitter.predict(X.reshape(-1,1)))
+plt.show()
+
+# 참고 사이트: https://hleecaster.com/ml-logistic-regression-concept/
