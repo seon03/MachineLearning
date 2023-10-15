@@ -1,4 +1,4 @@
-# 1.Proposal (10/30)
+# 1. Proposal (10/30)
 
 1. Problem definition⚡
 • What is Website fingerprinting?
