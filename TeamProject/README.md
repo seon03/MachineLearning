@@ -1,4 +1,4 @@
-❗Deadline: 10/30 MON at 23:59
+# 1.Proposal (10/30)
 
 1. Problem definition⚡
 • What is Website fingerprinting?
@@ -15,3 +15,5 @@
 5. Else🔍
 • Tuning, preliminary results, experimental scenario, etc
 
+
+# 2. Final Presentation (12/11)
