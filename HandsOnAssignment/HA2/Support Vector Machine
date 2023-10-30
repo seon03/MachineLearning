@@ -1,0 +1,90 @@
+## 2-1. Support vector machines with Iris dataset
+
+# Download the dataset
+# data source: scikit-learn library
+from sklearn.datasets import load_iris
+iris_dataset = load_iris()
+
+## Goal: Train Support vector machines to predict y (species of flower) based on provided features (SepalLength, SepalWidth, PetalLength, PetalWidth)
+# ❗❗READ CAREFULLY ⬇
+# *   Use Scikit-learn library directly
+# *   TO-DO:
+#  1. Split the dataset into training and testing sets (training:testing=75:25)
+#  2. Use "StandardScaler" function (provided in HA1_part1) to map all points to have mean=0 and std=1
+#  3. First, train and test SVM using linear kernel
+#    *   Report the accuracy
+#    *   After that, by using 5-fold cross validation, again report accuracies from each fold and the mean accuracy after taking the mean on five accuracies.
+#  4. Second, train and test SVM using RBF kernel
+#    *   use C=1, gamma=0.01
+#    *   Report the accuracy
+#    *   After that, by using 5-fold cross validation, again report accuracies from each fold and the mean accuracy after taking the mean on five accuracies.
+#  5. Hyperparemter tuning by using Grid Search (i.e., from sklearn.model_selection import GridSearchCV)
+#    *   Parameter search space must include three kernels (['rbf', 'poly', 'sigmoid'], C ([0.1,1, 10, 100]) and gamma ([1,0.1,0.01,0.001]))
+#    *   Report best parameters and accuracy based on them
+#  6. Extend your discussion on why chosen kernel works more effectively than others and whether hyperparmeter tuning helps perfomrance improvement.
+
+X = iris_dataset.data
+y = iris_dataset.target
+
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(X, y)
+
+from sklearn.preprocessing import StandardScaler
+scaler = StandardScaler()
+scaler.fit(X_train)
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
+
+from sklearn.svm import SVC
+model = SVC(kernel='linear')
+model.fit(X_train, y_train)
+
+y_pred = model.predict(X_test)
+from sklearn.metrics import accuracy_score, recall_score, precision_score
+print("accuracy on test dataset: {}".format(accuracy_score(y_test, y_pred)))
+print("recall on test dataset: {}".format(recall_score(y_test,y_pred,average='micro')))
+print("precision on test dataset: {}".format(precision_score(y_test, y_pred,average='micro')))
+
+from sklearn.model_selection import cross_val_score
+score = cross_val_score(model, X_train, y_train, cv=5)
+print(score)
+print(score.mean())
+
+svm = SVC(kernel='rbf', gamma=0.01, C=1.0)
+svm.fit(X_train, y_train)
+
+y_pred = svm.predict(X_test)
+from sklearn.metrics import accuracy_score, recall_score, precision_score
+print("accuracy on test dataset: {}".format(accuracy_score(y_test, y_pred)))
+print("recall on test dataset: {}".format(recall_score(y_test,y_pred,average='micro')))
+print("precision on test dataset: {}".format(precision_score(y_test, y_pred,average='micro')))
+
+from sklearn.model_selection import cross_val_score
+svm_score = cross_val_score(svm, X_train, y_train, cv=5)
+print(svm_score)
+print(svm_score.mean())
+
+from sklearn.model_selection import GridSearchCV
+param_grid = {'C': [0.1,1, 10, 100],
+              'gamma': [1,0.1,0.01,0.001],
+              'kernel': ['rbf', 'poly', 'sigmoid']}
+
+grid = GridSearchCV(SVC(), param_grid, refit = True, cv=5)
+
+# fit the model for grid search
+grid.fit(X_train, y_train)
+# print best parameters after grid search
+print(grid.best_params_)
+
+# evaluate the model with the best parameters chosen thru tuning
+grid_pred = grid.predict(X_test)
+print("accuracy on test dataset: {}".format(accuracy_score(y_test, grid_pred)))
+print("recall on test dataset: {}".format(recall_score(y_test, grid_pred, average='micro')))
+print("precision on test dataset: {}".format(precision_score(y_test, grid_pred, average='micro')))
+
+# These chosen kernels work more effectively than others because they become basis functions with infinite dimensions when converted to basis functions. 
+# Therefore, most nonlinearities can be handled.
+# Hyperparameter tuning is an essential part of controlling the behavior of a machine learning model. 
+# If we correctly tune our hyperparameters, our estimated model parameters produces optimal results, as they minimize the loss function. 
+# This means our model doesn't make more errors. We can actually see that from comparing the results of caculated accuracy score of svm versus grid. 
+# After tuning('grid'), the score was higher than before..
