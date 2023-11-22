@@ -1,0 +1,61 @@
+## Goal: Train the RandomForest classifier with preprocessed Titanic dataset to determine whether people survive or not.
+#❗❗READ CAREFULLY ⬇
+
+#*   Use scikit-learn library to build the RandomForest classifier and compute the feature importance scores
+#*   TO-DO:
+  
+#  1. Split the dataset (train:test=80:20).
+#  2. Use provided `StandardScaler` function to normalize the data
+#  3. Train the RandomForest model using training data. Use the following parameters:
+#    *   n_estimators=20,
+#    *   criterion="entropy"
+#  4. Test the trained model using testing data and report the accuracy and confusion matrix. (Note that to derive the confusion matrix, use scikit-learn library, `sklearn.metrics.confusion_matrix`)
+#  5. Report the feature rankings with importance scores using the bar plot using barplot provided by `seaborn` library.
+#  6. Use hyperparameter tuning with `GridSearchCV` to explore the grid ('n_estimators': [20, 50, 100, 200], 'criterion' :['gini', 'entropy']). Then, report the best parameters, the model accuracy, and confusion matrix. Discuss how much chosen parameters can help improve the model performance in Step 4.
+
+
+from sklearn.ensemble import RandomForestClassifier
+
+from sklearn import datasets
+from sklearn.model_selection import train_test_split
+
+data = datasets.load_breast_cancer()
+X, y = data.data, data.target
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=1
+)
+
+import pandas as pd
+
+df = pd.DataFrame(X_train)
+
+from sklearn.preprocessing import StandardScaler
+def scaler_samples(X_train,X_test):
+  scaler = StandardScaler()
+  X_train = scaler.fit_transform(X_train)
+  X_test = scaler.transform(X_test)
+
+  return X_train, X_test
+
+clf = RandomForestClassifier(n_estimators=20, criterion="entropy", max_depth=100, min_samples_split=2, max_features="sqrt", random_state=0)
+
+from sklearn.model_selection import cross_val_score
+scores = cross_val_score(clf, X, y, cv=5)
+print(scores)
+print(sum(scores)/len(scores))
+
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+feature_imp = pd.Series(clf.feature_importances_, index=data.feature_names).sort_values(ascending=False)
+
+#print("Accuracy: {}".format(metrics.accuracy_score(y_test, y_pred)))
+
+plt.figure(figsize=(10,6))
+sns.barplot(x=feature_imp, y=feature_imp.index)
+# Add labels to your graph
+plt.xlabel('Feature Importance Score')
+plt.ylabel('Features')
+plt.title("Visualizing Important Features")
+plt.tight_layout()
