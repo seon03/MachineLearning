@@ -1,0 +1,155 @@
+## Goal: Change the "DecisionTree" class to use the gini importance (aka impurity) in the quality test for the node decision.
+#❗❗READ CAREFULLY ⬇
+
+#*   Use the classes provided in the lab
+#*   Use the breast cancer dataset
+#*   TO-DO:
+#  1. Update the `DecisionTree` class to use `_gini_importance` and `impurity_decrease` rather than `_entropy` and `_information_gain`.
+#  2. Train the Decision tree model using your updated `DecisionTree` class using `X_train`
+#  3. Test the trained model using `X_test` and report the accuracy.
+
+class DecisionTree:
+
+    def __init__(self, max_depth=100, min_samples_split=2):
+        self.max_depth = max_depth
+        self.min_samples_split = min_samples_split
+        self.root = None
+
+    def _stop(self, depth):
+        if (depth >= self.max_depth
+            or self.n_class_labels == 1
+            or self.n_samples < self.min_samples_split):
+            return True
+        return False
+
+    def _gini_importance(self, y):
+        # np.bincount: Count number of occurrences of each value in array
+        weights = np.bincount(y) / len(y)
+        gini_impurity = -np.sum([w * (1 - w) for w in weights if w > 0])
+        return gini_impurity
+
+    def _expand_tree(self, X, value):
+
+        # np.argwhere: return indices of X which are less than and equal to value
+        # np.flatten: turn multi-dimensional data into vectors
+        left_idx = np.argwhere(X <= value).flatten()
+
+        # return indices of X which are greater than
+        right_idx = np.argwhere(X > value).flatten()
+        return left_idx, right_idx
+
+    # The decrease of impurity is the difference between a node’s impurity and the weighted sum of the impurity measures of the two child nodes (the Gini index)
+    # The reduction in impurity is the starting group Gini impurity minus the weighted sum of impurities from the resulting split groups.
+    def _impurity_decrease (self, X, y, value):
+            start_impurity = self._gini_importance(y)
+
+            # expand the tree with X
+            left_idx, right_idx = self._expand_tree(X, value)
+
+            n, n_left, n_right = len(y), len(left_idx), len(right_idx)
+
+            if n_left == 0 or n_right == 0:
+                return 0
+
+            # each node has two children (right child and left child)
+            weighted_sum_impurity = (n_left / n) * self._gini_importance(y[left_idx]) + (n_right / n) * self._gini_importance(y[right_idx])
+            return start_impurity - weighted_sum_impurity
+
+    def _best_split(self, X, y, features):
+        # create split dict in which we record score, feature, and value to keep the split yielding the maximum score
+        split = {'score':- 1, 'feat': None, 'value': None}
+
+        # for each column in 30 columns
+        for feat in features:
+            # select one feature column
+            # example: values in outlook column
+            X_feat = X[:, feat]
+
+            # np.unique: remove duplicates
+            # create values
+            values = np.unique(X_feat)
+
+            # for each value in the column
+            for value in values:
+
+                # compute the impurity decrease
+                score = self._impurity_decrease(X_feat, y, value)
+
+                # Update the split with the maximum score
+                if score > split['score']:
+                    split['score'] = score
+                    split['feat'] = feat
+                    split['value'] = value
+
+        # return the best split with the maximum score (i.e., impurity decrease)
+        return split['feat'], split['value']
+
+    def _build_tree(self, X, y, depth=0):
+        self.n_samples, self.n_features = X.shape
+        self.n_class_labels = len(np.unique(y))
+
+        # 1. Check whether go or stop: use stopping criteria using _stop function
+        if self._stop(depth):
+            most_common_Label = np.argmax(np.bincount(y))
+            return Node(label=most_common_Label)
+
+        # 2. find the best split: get the best feature for the current node among 30 features
+        # random_f carries shuffled feature indices
+        random_f = np.random.choice(self.n_features, self.n_features, replace=False)
+        best_feat, best_value = self._best_split(X, y, random_f)
+
+        # 3. expand the tree: create the subtrees using the best split
+        left_idx, right_idx = self._expand_tree(X[:, best_feat], best_value)
+
+        # 4. grow the left subtree and right subtree recursively
+        left_child = self._build_tree(X[left_idx, :], y[left_idx], depth + 1)
+        right_child = self._build_tree(X[right_idx, :], y[right_idx], depth + 1)
+        return Node(best_feat, best_value, left_child, right_child)
+
+    def fit(self, X, y):
+        self.root = self._build_tree(X, y)
+
+
+    # For the evaluation using the testing set, we need a traverse function
+    def _traverse_tree(self, x, node):
+        if node.is_leaf():
+            return node.label
+
+        # recursively traverse the tree (left subtree)
+        # node.feature = feature index, so compare X to current node's value
+        if x[node.feature] <= node.value:
+            return self._traverse_tree(x, node.left)
+
+        # recursively traverse the tree (right subtree)
+        return self._traverse_tree(x, node.right)
+
+    def predict(self, X):
+        predictions = [self._traverse_tree(x, self.root) for x in X]
+        return np.array(predictions)
+
+
+
+data = datasets.load_breast_cancer()
+X, y = data.data, data.target
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=1
+)
+
+import pandas as pd
+
+df = pd.DataFrame(X_train)
+df.head()
+
+clf = DecisionTree(max_depth=10)
+clf.fit(X_train, y_train)
+
+def accuracy(y_true, y_pred):
+    accuracy = np.sum(y_true == y_pred) / len(y_true)
+    return accuracy
+
+y_pred = clf.predict(X_test)
+acc = accuracy(y_test, y_pred)
+
+print("Accuracy:", acc)
+
