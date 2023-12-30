@@ -68,7 +68,8 @@ By focusing on significant features and leveraging a structured data analysis ap
         
          •	Feature importance analysis identified features 1, 5, 9, 6, 7, 14, and 12 as crucial (feature importance > 0.1).
         
-         •	This table represents features in order of their importance.
+         •	This table represents features in order of their importance
+  	.
          |No.|Feature|Explanation|
          |--|--|--|
          |1|Feature 1|Array to store instances (timestamps)|
