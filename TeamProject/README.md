@@ -46,7 +46,8 @@ By focusing on significant features and leveraging a structured data analysis ap
   	•	Data Definition: The dataset includes features such as timestamps, packet directions, packet sizes (512 bytes), for both monitored (95 websites with 10 subpages observed 20 times each, total of 19,000 instances) and unmonitored (10,000 instances) websites. Monitored websites includes ‘site of each instances’(95 websites).
 
   	•	Data Preprocessing: 
-      a) Data Transformation:
+
+  	   a) Data Transformation:
 
   	      •	Four continuous features (feature1-4 in order - Array to store instances (timestamps), array to store instances (direction*size), array to store bursts, and array to store cumulative packet sizes)
 
