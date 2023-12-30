@@ -56,7 +56,7 @@ By focusing on significant features and leveraging a structured data analysis ap
 
   	      •	Referred to the paper "k-fingerprinting: A Robust Scalable Website Fingerprinting Technique. Usenix Security16"
   
-   b) Data Reduction:
+      b) Data Reduction:
         
          •	To simplify the model and prevent overfitting, less-contributing features were removed. 
        
@@ -69,13 +69,14 @@ By focusing on significant features and leveraging a structured data analysis ap
          •	Feature importance analysis identified features 1, 5, 9, 6, 7, 14, and 12 as crucial (feature importance > 0.1).
         
          •	This table represents features in order of their importance.
-1	Feature 1	Array to store instances (timestamps)
-2	Feature 5	Number of incoming packets
-3	Feature 9	Number of outgoing packets
-4	Feature 6	Number of outgoing packets as a fraction of the total number of packets
-5	Feature 7	Number of incoming packets as a fraction of the total number of packets
-6	Feature 14	Total number of packets
-7	Feature 12	Sum of incoming, outgoing and total number of packets
+
+1|	Feature 1|	Array to store instances (timestamps)
+2| Feature 5|	Number of incoming packets
+3|	Feature 9|	Number of outgoing packets
+4|	Feature 6|	Number of outgoing packets as a fraction of the total number of packets
+5|ature 7|	Number of incoming packets as a fraction of the total number of packets
+6|	Feature 14|	Total number of packets
+7|	Feature 12|	Sum of incoming, outgoing and total number of packets
 
 
 • In conclusion, we selected total 7 significant features for the machine learning algorithm to classify websites using those features.
