@@ -31,13 +31,14 @@ References
 Problem Statement
 This project focuses on website fingerprinting within anonymous networks, aiming to develop a robust model for accurately identifying monitored & unmonitored websites in both closed-world and open-world scenarios. The method includes collecting website traffic data and undergoing a training process using machine learning techniques, utilizing features such as packet size, packet direction, and timestamp. The project has two main objectives:
 1.	Closed-World Website Fingerprinting:
-   •	Objective: Classify 95 monitored websites.
-2.	Open-World Website Fingerprinting:
+
+  	•	Objective: Classify 95 monitored websites.
+3.	Open-World Website Fingerprinting:
 (1) Binary Classification:
    •	Distinguish between monitored and unmonitored websites
 (2) Multiclass Classification:
    •	Further classify monitored websites into 95 classes (0 to 94), along with a category for unmonitored websites (-1).
-3.	Data Analysis:
+4.	Data Analysis:
 By focusing on significant features and leveraging a structured data analysis approach, before designing a website fingerprinting model for anonymous online communication.
    •	Data Definition: The dataset includes features such as timestamps, packet directions, packet sizes (512 bytes), for both monitored (95 websites with 10 subpages observed 20 times each, total of 19,000 instances) and unmonitored (10,000 instances) websites. Monitored websites includes ‘site of each instances’(95 websites).
    •	Data Preprocessing: 
