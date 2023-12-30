@@ -31,28 +31,28 @@ References
 Problem Statement
 This project focuses on website fingerprinting within anonymous networks, aiming to develop a robust model for accurately identifying monitored & unmonitored websites in both closed-world and open-world scenarios. The method includes collecting website traffic data and undergoing a training process using machine learning techniques, utilizing features such as packet size, packet direction, and timestamp. The project has two main objectives:
 1.	Closed-World Website Fingerprinting:
-•	Objective: Classify 95 monitored websites.
+   •	Objective: Classify 95 monitored websites.
 2.	Open-World Website Fingerprinting:
 (1) Binary Classification:
-•	Distinguish between monitored and unmonitored websites
+   •	Distinguish between monitored and unmonitored websites
 (2) Multiclass Classification:
-•	Further classify monitored websites into 95 classes (0 to 94), along with a category for unmonitored websites (-1).
+   •	Further classify monitored websites into 95 classes (0 to 94), along with a category for unmonitored websites (-1).
 3.	Data Analysis:
 By focusing on significant features and leveraging a structured data analysis approach, before designing a website fingerprinting model for anonymous online communication.
-	Data Definition: The dataset includes features such as timestamps, packet directions, packet sizes (512 bytes), for both monitored (95 websites with 10 subpages observed 20 times each, total of 19,000 instances) and unmonitored (10,000 instances) websites. Monitored websites includes ‘site of each instances’(95 websites).
-	Data Preprocessing: 
-a) Data Transformation:
-•	Four continuous features (feature1-4 in order - Array to store instances (timestamps), array to store instances (direction*size), array to store bursts, and array to store cumulative packet sizes)
-•	11 categorical features have been added (feature5-15) - such as the number of incoming and outgoing packets, standard deviation, and averages of packet ordering. Each of the features were converted from continuous feature, feature2.
-•	Referred to the paper "k-fingerprinting: A Robust Scalable Website Fingerprinting Technique. Usenix Security16"
+   •	Data Definition: The dataset includes features such as timestamps, packet directions, packet sizes (512 bytes), for both monitored (95 websites with 10 subpages observed 20 times each, total of 19,000 instances) and unmonitored (10,000 instances) websites. Monitored websites includes ‘site of each instances’(95 websites).
+   •	Data Preprocessing: 
+      a) Data Transformation:
+         •	Four continuous features (feature1-4 in order - Array to store instances (timestamps), array to store instances (direction*size), array to store bursts, and array to store cumulative packet sizes)
+         •	11 categorical features have been added (feature5-15) - such as the number of incoming and outgoing packets, standard deviation, and averages of packet ordering. Each of the features were converted from continuous feature, feature2.
+         •	Referred to the paper "k-fingerprinting: A Robust Scalable Website Fingerprinting Technique. Usenix Security16"
   
-b) Data Reduction:
-•	To simplify the model and prevent overfitting, less-contributing features were removed. 
-•	From monitored websites, we extracted feature5-17(but feature 10 and 13 were difficult for us to figure out how to make them. But since we decided to remove some of the features concerning overfitting, we figured it won’t have much of an impact on the results(예상질문! 답변내용) and examined the feature importance. 
-•	We had a slight issue with feature 1-4, which turned out that the array format of features extracted from each instance couldn’t decide it’s importance. So we updated feature (timestamps) and feature3-bursts to assign just 1 value for each instance(feature2 and 4 were not able to extract 1 value). From feature 1, we sorted the largest interval between timestamps in each instance's list of timestamps. In Feature 3, we chose the maximum value among the sizes(absolute value) of each instance’s burst list. (예상질문! 답변내용)
-•	Finally, from updated features (- feature 1*,3*,4-9,11-12 and 14-17), we computed their feature importance.
-•	Feature importance analysis identified features 1, 5, 9, 6, 7, 14, and 12 as crucial (feature importance > 0.1).
-•	This table represents features in order of their importance.
+   b) Data Reduction:
+         •	To simplify the model and prevent overfitting, less-contributing features were removed. 
+         •	From monitored websites, we extracted feature5-17(but feature 10 and 13 were difficult for us to figure out how to make them. But since we decided to remove some of the features concerning overfitting, we figured it won’t have much of an impact on the results(예상질문 답변내용) and examined the feature importance. 
+         •	We had a slight issue with feature 1-4, which turned out that the array format of features extracted from each instance couldn’t decide it’s importance. So we updated feature (timestamps) and feature3-bursts to assign just 1 value for each instance(feature2 and 4 were not able to extract 1 value). From feature 1, we sorted the largest interval between timestamps in each instance's list of timestamps. In Feature 3, we chose the maximum value among the sizes(absolute value) of each instance’s burst list. (예상질문 답변내용)
+         •	Finally, from updated features (- feature 1*,3*,4-9,11-12 and 14-17), we computed their feature importance.
+         •	Feature importance analysis identified features 1, 5, 9, 6, 7, 14, and 12 as crucial (feature importance > 0.1).
+         •	This table represents features in order of their importance.
 1	Feature 1	Array to store instances (timestamps)
 2	Feature 5	Number of incoming packets
 3	Feature 9	Number of outgoing packets
