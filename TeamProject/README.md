@@ -29,6 +29,7 @@ References
 
 # 2. Final Presentation (12/11)
 **Problem Statement**
+
 This project focuses on website fingerprinting within anonymous networks, aiming to develop a robust model for accurately identifying monitored & unmonitored websites in both closed-world and open-world scenarios. The method includes collecting website traffic data and undergoing a training process using machine learning techniques, utilizing features such as packet size, packet direction, and timestamp. The project has two main objectives:
 1.	Closed-World Website Fingerprinting:
 
