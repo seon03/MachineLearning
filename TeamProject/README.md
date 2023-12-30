@@ -28,7 +28,7 @@ References
 - [Cadena et al. TrafficSliver: Fighting Website Fingerprinting Attacks with Traffic Splitting. CCS20](https://file.notion.so/f/f/ba8e00c2-fec6-4186-ac41-8f215ba31d9b/07875574-85c3-4120-9b9b-e38dc5b83222/sec14-paper-wang-tao.pdf?id=b78e6eee-6cad-4851-8398-4e3621e258e9&table=block&spaceId=ba8e00c2-fec6-4186-ac41-8f215ba31d9b&expirationTimestamp=1697436000000&signature=jk0Yqh5tY6eZUqMaEyDobhMp7BQacGIm5kT2GzDyLaM&downloadName=Wang+et+al.+Effective+Attacks+and+Provable+Defenses+for+Website+Fingerpri%0Anting.+Usenix+Security14..pdf)
 
 # 2. Final Presentation (12/11)
-Problem Statement
+**Problem Statement**
 This project focuses on website fingerprinting within anonymous networks, aiming to develop a robust model for accurately identifying monitored & unmonitored websites in both closed-world and open-world scenarios. The method includes collecting website traffic data and undergoing a training process using machine learning techniques, utilizing features such as packet size, packet direction, and timestamp. The project has two main objectives:
 1.	Closed-World Website Fingerprinting:
 
