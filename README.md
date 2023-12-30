@@ -7,3 +7,4 @@
 3. SVM
 4. Decision Trees
 5. Tree Ensembles
+6. Neural Network
