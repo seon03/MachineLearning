@@ -70,15 +70,15 @@ By focusing on significant features and leveraging a structured data analysis ap
         
          •	This table represents features in order of their importance
   	
-         |No.|Feature|Explanation|
-         |--|--|--|
-         |1|Feature 1|Array to store instances (timestamps)|
-         |2|Feature 5|Number of incoming packets|
-         |3|Feature 9|Number of outgoing packets|
-         |4|Feature 6|Number of outgoing packets as a fraction of the total number of packets|
-         |5|Feature 7|Number of incoming packets as a fraction of the total number of packets|
-         |6|Feature 14|Total number of packets|
-         |7|Feature 12|Sum of incoming, outgoing and total number of packets|
+|No.|Feature|Explanation|
+|--|--|--|
+|1|Feature 1|Array to store instances (timestamps)|
+|2|Feature 5|Number of incoming packets|
+|3|Feature 9|Number of outgoing packets|
+|4|Feature 6|Number of outgoing packets as a fraction of the total number of packets|
+|5|Feature 7|Number of incoming packets as a fraction of the total number of packets|
+|6|Feature 14|Total number of packets|
+|7|Feature 12|Sum of incoming, outgoing and total number of packets|
 
 
 • In conclusion, we selected total 7 significant features for the machine learning algorithm to classify websites using those features.
