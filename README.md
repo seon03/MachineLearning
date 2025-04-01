@@ -1,5 +1,5 @@
 # MachineLearning
-- Bream & Smelt k-Nearest Neighbors algorithm (binary Classification)
+Bream & Smelt k-Nearest Neighbors algorithm (binary Classification)
 
 ## Hands On Assignment
 1. Linear Regression
@@ -10,4 +10,4 @@
 6. Neural Network
 
 ## Website Fingerprinting
-- feature extraction
+feature extraction
